@@ -1,4 +1,3 @@
-
 #include "Ticket.h"
 
 int Ticket::totalTicketsCount = 0;
@@ -8,5 +7,10 @@ Ticket::Ticket(double price){
     Ticket::totalTicketsCount++;
 }
 
-double Ticket::getPrice() const { return this->price; }
-int Ticket::getTicketsCount() { return Ticket::totalTicketsCount; }
+double Ticket::getPrice() const {
+    return this->price;
+}
+
+int Ticket::getTicketsCount() {
+    return Ticket::totalTicketsCount;
+}

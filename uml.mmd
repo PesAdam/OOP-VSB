@@ -1,0 +1,82 @@
+classDiagram
+    class IDriveable {
+        <<interface>>
+        +drive() void*
+    }
+
+    class Vehicle {
+        <<abstract>>
+        #int vehicleID
+        #Driver driver
+        #Route route
+        +Vehicle(id, d, r)
+        +drive() void*
+        +setDriver(d) void
+        +setRoute(r) void
+        +getID() int
+        +getDriver() Driver
+        +getRoute() Route
+    }
+
+    class Bus {
+        -double fuelCapacity
+        +Bus(id, d, r, fuelCapacity)
+        +drive() void
+        +refuel() void
+        +getFuelCapacity() double
+    }
+
+    class Tram {
+        -int pantographVoltage
+        +Tram(id, d, r, voltage)
+        +drive() void
+        +getPantographVoltage() int
+    }
+
+    class Driver {
+        -string name
+        -int employeeID
+        +Driver()
+        +Driver(name, employeeID)
+        +getDetails() string
+        +getName() string
+        +getID() int
+    }
+
+    class Route {
+        -string startStation
+        -string endStation
+        +Route()
+        +Route(start, end)
+        +getRouteInfo() string
+        +getStart() string
+        +getEnd() string
+    }
+
+    class TransportSystem {
+        -Vehicle** fleet
+        -int fleetCount
+        -int fleetCapacity
+        +TransportSystem(capacity)
+        +addVehicle(v) void
+        +assignRoute(v, r Route) void
+        +assignRoute(v, start, dest) void
+        +startSimulation() void
+        +getVehicle(index) Vehicle
+        +getFleetSize() int
+    }
+
+    class Ticket {
+        -$ int totalTicketsCount
+        -double price
+        +Ticket(price)
+        +getPrice() double
+        +$ getTicketsCount() int
+    }
+
+    IDriveable <|-- Vehicle : dedi
+    Vehicle <|-- Bus : dedi
+    Vehicle <|-- Tram : dedi
+    Vehicle *-- Driver : kompozicia
+    Vehicle *-- Route : kompozicia
+    TransportSystem o-- Vehicle : spravuje

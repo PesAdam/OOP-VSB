@@ -16,6 +16,11 @@ string Route::getRouteInfo() const {
     return this->startStation + " -> " + this->endStation;
 }
 
-string Route::getStart() const { return this->startStation; }
-string Route::getEnd() const { return this->endStation; }
+string Route::getStart() const {
+    return this->startStation;
+}
+
+string Route::getEnd() const {
+    return this->endStation;
+}
 

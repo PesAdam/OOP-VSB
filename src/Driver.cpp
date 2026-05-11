@@ -16,6 +16,10 @@ string Driver::getDetails() const {
     return "Vodic: " + this->name + " (ID: " + to_string(this->employeeID) + ")";
 }
 
-string Driver::getName() const { return this->name; }
-int Driver::getID() const { return this->employeeID; }
+string Driver::getName() const { 
+    return this->name; 
+}
 
+int Driver::getID() const { 
+    return this->employeeID; 
+}

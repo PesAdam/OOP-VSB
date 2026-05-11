@@ -23,6 +23,7 @@ projekt/
 └── src/
     ├── Driver.h / Driver.cpp         # trieda Vodič
     ├── Route.h  / Route.cpp          # trieda Trasa
+    ├── IDriveable.h                          # čisto abstraktná trieda (interface)
     ├── Vehicle.h / Vehicle.cpp       # abstraktná trieda Vozidlo (základ hierarchie)
     ├── Bus.h    / Bus.cpp            # potomok: Autobus
     ├── Tram.h   / Tram.cpp           # potomok: Električka
@@ -149,11 +150,23 @@ Prekladač pri kompilácii nevie, čo je za `fleet[i]`. Rozhodnutie nastáva **z
 ---
 
 ### 3. Abstraktná trieda
-`Vehicle` je abstraktná, pretože obsahuje:
+`IDriveable` je čisto abstraktná trieda (interface) – obsahuje **iba** pure virtual metódy, žiadne dáta:
 ```cpp
-virtual void drive() const = 0;   // = 0 znamená "čisto virtuálna"
+class IDriveable {
+public:
+    virtual ~IDriveable() = default;
+    virtual void drive() const = 0;
+};
 ```
-Nedá sa napísať `new Vehicle(...)`. Vždy musím vytvoriť konkrétneho potomka (`Bus` alebo `Tram`), ktorý `drive()` implementuje.
+`Vehicle` od nej dedí a tiež je abstraktná (nedá sa priamo vytvoriť). Konkrétne implementácie `drive()` poskytujú až `Bus` a `Tram`.
+
+Hierarchia:
+```
+IDriveable  ←  čisto abstraktná trieda
+    └── Vehicle     ←  abstraktná trieda s dátami
+            ├── Bus
+            └── Tram
+```
 
 ---
 

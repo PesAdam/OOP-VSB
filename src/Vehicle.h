@@ -13,8 +13,6 @@ protected:
 public:
     Vehicle(int id, Driver d, Route r);
     virtual ~Vehicle();
-
-    
     
     virtual void drive() const = 0;
 

@@ -1,5 +1,5 @@
 #include "Bus.h"
-#include<iostream>
+#include <iostream>
 using namespace std;
 
 Bus::Bus(int id, Driver d, Route r, double fuelCapacity) : Vehicle(id, d, r){
