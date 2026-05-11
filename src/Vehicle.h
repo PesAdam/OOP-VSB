@@ -2,8 +2,9 @@
 #pragma once
 #include "Driver.h"
 #include "Route.h"
+#include "IDriveable.h"
 
-class Vehicle {
+class Vehicle : public IDriveable {
 protected:
     int vehicleID;
     Driver driver;    
