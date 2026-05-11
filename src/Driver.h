@@ -1,17 +1,17 @@
 #pragma once
 #include<string>
-using namespace std;
 
 // Vodic priradeny k vozidlu. Pouziva sa ako kompozicia vo Vehicle.
 class Driver {
 private:
-    string name;
+    std::string name;
     int employeeID;
 
 public:
     Driver();
-    Driver(string name, int employeeID);
-    string getDetails() const;
-    string getName() const;
+    Driver(std::string name, int employeeID);
+    std::string getDetails() const;
+    std::string getName() const;
     int getID() const;
 };
+

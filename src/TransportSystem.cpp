@@ -15,20 +15,21 @@ TransportSystem::~TransportSystem(){
 }
 
 void TransportSystem::addVehicle(Vehicle* v){
+    if(v == nullptr) return;
+    if(this->fleetCount >= this->fleetCapacity){
+        cerr << "[CHYBA] Flotila je plna, vozidlo nebolo pridane." << endl;
+        return;
+    }
     this->fleet[this->fleetCount++] = v;
 }
-
-// [BOD 4] Pretazena metoda 1 – priradenie cez objekt Route
 void TransportSystem::assignRoute(Vehicle* v, Route r){
+    if(v == nullptr) return;
     v->setRoute(r);
 }
-
-// [BOD 4] Pretazena metoda 2 – priradenie cez dva retazce
 void TransportSystem::assignRoute(Vehicle* v, string start, string dest){
+    if(v == nullptr) return;
     v->setRoute(Route(start, dest));
 }
-
-// [BOD 7][BOD 9] Neskorava vazba – drive() sa rezolvuje za behu
 void TransportSystem::startSimulation() const {
     cout << "\n=== Simulacia MHD (" << this->fleetCount << " vozidiel) ===" << endl;
     for(int i = 0; i < this->fleetCount; i++)
@@ -36,6 +37,9 @@ void TransportSystem::startSimulation() const {
     cout << "=== Simulacia ukoncena ===" << endl;
 }
 
-Vehicle* TransportSystem::getVehicle(int index) const { return this->fleet[index]; }
-int TransportSystem::getFleetSize() const { return this->fleetCount; }
+Vehicle* TransportSystem::getVehicle(int index) const {
+    if(index < 0 || index >= this->fleetCount) return nullptr;
+    return this->fleet[index];
+}
 
+int TransportSystem::getFleetSize() const { return this->fleetCount; }

@@ -1,6 +1,5 @@
-#pragma once
 
-// [BOD 5] Trieda v roli objektu – static clen zdielany medzi vsetkymi instanciami
+#pragma once
 class Ticket {
 private:
     static int totalTicketsCount;
@@ -11,4 +10,3 @@ public:
     double getPrice() const;
     static int getTicketsCount();   // volanie: Ticket::getTicketsCount()
 };
-

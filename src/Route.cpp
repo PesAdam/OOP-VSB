@@ -1,4 +1,6 @@
 #include "Route.h"
+#include <string>
+using namespace std;
 
 Route::Route(){
     this->startStation = "Neznama";

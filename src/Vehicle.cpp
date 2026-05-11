@@ -13,4 +13,3 @@ void Vehicle::setRoute(Route r){ this->route = r; }
 int Vehicle::getID() const { return this->vehicleID; }
 Driver Vehicle::getDriver() const { return this->driver; }
 Route Vehicle::getRoute() const { return this->route; }
-
