@@ -1,34 +1,16 @@
 # Smart MHD System – OOP Projekt v C++
 
-Simulácia mestskej hromadnej dopravy (MHD) demonštrujúca kľúčové koncepty objektovo orientovaného programovania v C++.
+Ako projekt som si zvolil simuláciu mestskej hromadnej dopravy (MHD). Projekt demonštruje kľúčové koncepty objektovo orientovaného programovania v C++ ako sú dedičnosť, polymorfizmus, kompozíciu, pretažené metódy a statické členy.
 
 ---
 
 ## Obsah
 
-1. [Čo program robí – ľudskou rečou](#čo-program-robí--ľudskou-rečou)
-2. [Štruktúra projektu](#štruktúra-projektu)
-3. [UML diagram tried](#uml-diagram-tried)
-4. [Popis tried](#popis-tried)
-5. [OOP koncepty](#oop-koncepty)
-6. [Správa pamäte](#správa-pamäte)
-7. [Kompilácia a spustenie](#kompilácia-a-spustenie)
-
----
-
-## Čo program robí – ľudskou rečou
-
-Predstav si dispečing MHD v Bratislave. Máš flotilu 100 vozidiel – 50 autobusov a 50 električki. Každé vozidlo má svojho vodiča a jazdí po nejakej trase.
-
-Program toto všetko nasimuluje:
-- Vytvorí 100 vodičov a 100 trás
-- Každému vozidlu priradí vodiča a trasu
-- Spustí simuláciu – každé vozidlo „odchádza" a vypíše informácie o jazde
-- Ukáže, ako sa dá zmeniť trasa vozidla dvoma rôznymi spôsobmi
-- Ukáže, ako zistiť, či je nejaké vozidlo konkrétne autobus alebo električka
-- Spočíta, koľko cestovných lístkov bolo predaných
-
-Za všetkým stojí jeden princíp: **rozne typy vozidiel (autobus, električka) sa správajú rôzne, aj keď s nimi pracujeme rovnakým spôsobom** – to je polymorfizmus.
+1. [Štruktúra projektu](#štruktúra-projektu)
+2. [Popis tried](#popis-tried)
+3. [OOP koncepty](#oop-koncepty)
+4. [Správa pamäte](#správa-pamäte)
+5. [Kompilácia a spustenie](#kompilácia-a-spustenie)
 
 ---
 
@@ -48,76 +30,10 @@ projekt/
     └── Ticket.h / Ticket.cpp         # cestovný lístok so statickým počítadlom
 ```
 
----
-
-## UML diagram tried
-
-> Zdrojový súbor diagramu: [`uml.puml`](uml.puml) (PlantUML – dá sa vyrenderovať na https://www.plantuml.com/plantuml)
-
-```
-┌──────────────────────────────────────┐
-│           <<abstract>>               │
-│              Vehicle                 │
-├──────────────────────────────────────┤
-│ # vehicleID    : int                 │
-│ # driver       : Driver              │  ◆──────────────────► ┌─────────────┐
-│ # route        : Route               │  (kompozícia)         │   Driver    │
-├──────────────────────────────────────┤                       ├─────────────┤
-│ + drive() : void  {abstract}         │  ◆──────────────────► │   Route     │
-│ + setDriver(d)                       │  (kompozícia)         └─────────────┘
-│ + setRoute(r)                        │
-│ + getID() / getDriver() / getRoute() │
-└────────────────┬─────────────────────┘
-                 │ (dedičnosť)
-        ┌────────┴────────┐
-        ▼                 ▼
-┌──────────────┐   ┌──────────────────┐
-│     Bus      │   │      Tram        │
-├──────────────┤   ├──────────────────┤
-│ - fuelCap.   │   │ - pantographV.   │
-├──────────────┤   ├──────────────────┤
-│ + drive()    │   │ + drive()        │
-│ + refuel()   │   │ + getPantoV()    │
-│ + getFuelC() │   └──────────────────┘
-└──────────────┘
-
-┌────────────────────────────────────────────────┐
-│               TransportSystem                  │
-├────────────────────────────────────────────────┤
-│ - fleet[]      : Vehicle*   (polymorfné pole)  │
-│ - fleetCount   : int                           │◇────► Vehicle*
-│ - fleetCapacity: int                           │  (agregácia)
-├────────────────────────────────────────────────┤
-│ + addVehicle(v : Vehicle*)                     │
-│ + assignRoute(v, r : Route)      ──┐ pretažená │
-│ + assignRoute(v, start, dest)    ──┘ metóda    │
-│ + startSimulation()  [late binding]            │
-│ + getVehicle(index) / getFleetSize()           │
-└────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────┐
-│               Ticket                │
-├─────────────────────────────────────┤
-│ - {static} totalTicketsCount : int  │
-│ - price : double                    │
-├─────────────────────────────────────┤
-│ + Ticket(price)                     │
-│ + getPrice() : double               │
-│ + {static} getTicketsCount() : int  │  ← volá sa ako Ticket::getTicketsCount()
-└─────────────────────────────────────┘
-```
-
-**Legenda vzťahov:**
-- `▲` / dedičnosť (IS-A): `Bus` je `Vehicle`, `Tram` je `Vehicle`
-- `◆──►` kompozícia (HAS-A): `Vehicle` vlastní `Driver` a `Route` (objekty zanikajú spolu)
-- `◇──►` agregácia: `TransportSystem` spravuje `Vehicle*` (vozidlá môžu existovať samostatne)
-
----
-
 ## Popis tried
 
 ### `Driver` – Vodič
-Jednoduchá trieda uchovávajúca meno a zamestnanecké ID vodiča. Žiadna dedičnosť. Používa sa ako **kompozícia** vo Vehicle – každé vozidlo má práve jedného vodiča.
+Jednoduchá trieda, ktorú som vytvoril na uchovávanie mena a zamestnaneckého ID vodiča. Nemá žiadnu dedičnosť. Používam ju ako **kompozíciu** vo `Vehicle` – každé vozidlo má práve jedného vodiča.
 
 Metódy:
 - `Driver(string name, int employeeID)` – vytvorí vodiča
@@ -127,7 +43,7 @@ Metódy:
 ---
 
 ### `Route` – Trasa
-Uchováva názov východiskovej a cieľovej zastávky. Tiež kompozícia vo Vehicle.
+Uchováva názov východiskovej a cieľovej zastávky. Taktiež ju používam ako kompozíciu vo `Vehicle`.
 
 Metódy:
 - `Route(string start, string end)` – vytvorí trasu
@@ -137,7 +53,7 @@ Metódy:
 ---
 
 ### `Vehicle` – Vozidlo (abstraktná trieda)
-Základ celej hierarchie. **Nemôže byť priamo inštanciovaná** (`new Vehicle(...)` nefunguje), pretože obsahuje čisto virtuálnu metódu `drive()`.
+Základ celej mojej hierarchie. **Nedá sa priamo vytvoriť** (`new Vehicle(...)` spôsobí chybu pri kompilácii), pretože obsahuje čisto virtuálnu metódu `drive()`. Všetky spoločné dáta (ID, vodič, trasa) som umiestnil sem, aby ich potomkovia dedili automaticky.
 
 Obsahuje:
 - `vehicleID` – unikátne ID
@@ -153,28 +69,28 @@ Metódy:
 ---
 
 ### `Bus` – Autobus (potomok Vehicle)
-Rozširuje Vehicle o kapacitu palivovej nádrže (`fuelCapacity`).
+Rozširuje `Vehicle` o kapacitu palivovej nádrže (`fuelCapacity`). Implementuje `drive()` vlastným spôsobom a navyše pridáva metódu `refuel()`, ktorá v `Vehicle` neexistuje.
 
-Navyše oproti Vehicle:
+Navyše oproti `Vehicle`:
 - `fuelCapacity` – kapacita nádrže v litroch
-- `drive()` – implementácia jazdy autobusu (vypíše typ, trasu, vodiča, nádrž)
-- `refuel()` – simulácia dotankovania (len autobus, nie Vehicle)
+- `drive()` – výpis informácií o jazde autobusu
+- `refuel()` – simulácia dotankovania (dostupná len cez `Bus*`, nie cez `Vehicle*`)
 - `getFuelCapacity()` – getter
 
 ---
 
 ### `Tram` – Električka (potomok Vehicle)
-Rozširuje Vehicle o napätie pantografu (`pantographVoltage`).
+Rozširuje `Vehicle` o napätie pantografu (`pantographVoltage`). Rovnako ako `Bus` implementuje `drive()` po svojom.
 
-Navyše oproti Vehicle:
+Navyše oproti `Vehicle`:
 - `pantographVoltage` – elektrické napätie (600V / 750V / 900V)
-- `drive()` – implementácia jazdy električki
+- `drive()` – výpis informácií o jazde električki
 - `getPantographVoltage()` – getter
 
 ---
 
 ### `TransportSystem` – Dispečing
-Centrálny správca flotily. Uchováva pole `Vehicle**` – to je kľúč k polymorfizmu: do jedného poľa vkladáme aj `Bus*` aj `Tram*`, pretože oba sú `Vehicle*`.
+Centrálny správca flotily, ktorý som navrhol okolo poľa `Vehicle**`. To mi umožňuje uložiť do jednej štruktúry rôzne typy vozidiel – `Bus*` aj `Tram*` – a pracovať s nimi jednotne cez spoločný typ `Vehicle*`.
 
 Atribúty:
 - `Vehicle** fleet` – dynamické pole ukazovateľov na vozidlá
@@ -194,7 +110,7 @@ Metódy:
 ---
 
 ### `Ticket` – Cestovný lístok
-Demonštruje **statický člen triedy** – počítadlo zdieľané medzi všetkými inštanciami.
+Túto triedu som použil na demonštráciu **statického člena** – počítadlo `totalTicketsCount` je zdieľané medzi všetkými inštanciami a inkrementuje sa pri každom vytvorení lístka.
 
 Atribúty:
 - `static int totalTicketsCount` – celkový počet vydaných lístkov (jedna hodnota pre celú triedu)
@@ -214,13 +130,13 @@ Metódy:
 Vehicle  <---  Bus
 Vehicle  <---  Tram
 ```
-Bus a Tram **dedia** od Vehicle: automaticky získavajú `vehicleID`, `driver`, `route`, `getID()`, `setRoute()` atď. Samy pridávajú len to, čím sa líšia (`fuelCapacity`, `pantographVoltage`).
+`Bus` a `Tram` dedia od `Vehicle`: automaticky získavajú `vehicleID`, `driver`, `route`, `getID()`, `setRoute()` atď. Každý z nich pridáva len to, čím sa od predka líši (`fuelCapacity`, resp. `pantographVoltage`).
 
 ---
 
 ### 2. Polymorfizmus + Neskorá väzba (Late Binding)
 ```cpp
-Vehicle* fleet[200];   // pole predkovského typu
+Vehicle* fleet[50];
 
 fleet[0] = new Bus(...);    // Bus* uložený ako Vehicle*
 fleet[1] = new Tram(...);   // Tram* uložený ako Vehicle*
@@ -228,18 +144,16 @@ fleet[1] = new Tram(...);   // Tram* uložený ako Vehicle*
 fleet[0]->drive();   // zavolá Bus::drive()   <- rozhodnuté ZA BEHU
 fleet[1]->drive();   // zavolá Tram::drive()  <- rozhodnuté ZA BEHU
 ```
-Prekladač pri kompilácii **nevie**, čo je za `fleet[i]`. Rozhodnutie nastáva **za behu** podľa skutočného typu objektu – to je **neskorá väzba (late binding)**.
-
-Funguje vďaka `virtual` kľúčovému slovu pri `drive()` vo Vehicle.
+Prekladač pri kompilácii nevie, čo je za `fleet[i]`. Rozhodnutie nastáva **za behu** podľa skutočného typu objektu – to je **neskorá väzba (late binding)**. Funguje vďaka kľúčovému slovu `virtual` pri `drive()` vo `Vehicle`.
 
 ---
 
 ### 3. Abstraktná trieda
-Vehicle je abstraktná, lebo obsahuje:
+`Vehicle` je abstraktná, pretože obsahuje:
 ```cpp
 virtual void drive() const = 0;   // = 0 znamená "čisto virtuálna"
 ```
-Nemôžeme napísať `new Vehicle(...)`. Vždy musíme vytvoriť konkrétneho potomka (Bus alebo Tram), ktorý `drive()` implementuje.
+Nedá sa napísať `new Vehicle(...)`. Vždy musím vytvoriť konkrétneho potomka (`Bus` alebo `Tram`), ktorý `drive()` implementuje.
 
 ---
 
@@ -251,12 +165,12 @@ system.assignRoute(v, Route("Start", "Ciel"));
 // Verzia 2 – prijíma dva reťazce
 system.assignRoute(v, "Start", "Ciel");
 ```
-Rovnaké meno metódy, rôzne parametre. Prekladač rozlíši verzie podľa typov argumentov pri volaní.
+Obe metódy majú rovnaké meno, líšia sa typmi parametrov. Prekladač sám rozlíši, ktorú verziu zavolať.
 
 ---
 
 ### 5. Kompozícia (Composition – HAS-A vzťah)
-Vehicle **obsahuje** Driver a Route ako priame členy (nie pointery):
+`Vehicle` obsahuje `Driver` a `Route` ako priame členy (nie pointery):
 ```cpp
 class Vehicle {
     Driver driver;   // vozidlo MÁ vodiča
@@ -275,7 +189,7 @@ Ticket t3(1.5);   // totalTicketsCount = 3
 
 Ticket::getTicketsCount();   // vráti 3 – voláme na TRIEDE, nie na inštancii
 ```
-Statická premenná existuje iba raz – patrí triede, nie konkrétnemu objektu.
+Statická premenná existuje iba raz pre celú triedu – nie zvlášť pre každý objekt.
 
 ---
 
@@ -291,7 +205,7 @@ if(busPtr != nullptr){
 Tram* tramPtr = dynamic_cast<Tram*>(ptr);
 // tramPtr == nullptr, lebo za ptr stojí Bus, nie Tram
 ```
-`dynamic_cast` bezpečne overí skutočný typ objektu za behu. Ak pretypovanie dáva zmysel, vráti platný pointer. Ak nie, vráti `nullptr`.
+`dynamic_cast` bezpečne overí skutočný typ objektu za behu. Ak pretypovanie dáva zmysel, vráti platný pointer, inak `nullptr`.
 
 ---
 
@@ -299,29 +213,24 @@ Tram* tramPtr = dynamic_cast<Tram*>(ptr);
 
 | Čo sa alokuje | Kde sa alokuje | Kde sa uvoľňuje |
 |---|---|---|
-| `Bus*` / `Tram*` | `main.cpp` – slučky `new Bus(...)` / `new Tram(...)` | `~TransportSystem()` – destruktor |
-| `Driver*` (pole 100) | `main.cpp` | `main.cpp` – záverečné `delete drivers[i]` |
-| `Route*` (pole 100) | `main.cpp` | `main.cpp` – záverečné `delete routes[i]` |
-| `Vehicle*[capacity]` | `TransportSystem(int)` konštruktor | `~TransportSystem()` – `delete[] fleet` |
-| `Ticket t` | `main.cpp` – stack | automaticky na konci každej iterácie slučky |
+| `Bus*` / `Tram*` | `main.cpp` – cykly `new Bus(...)` / `new Tram(...)` | `~TransportSystem()` – destruktor |
+| `Driver*` (pole 40) | `main.cpp` | `main.cpp` – záverečné `delete drivers[i]` |
+| `Route*` (pole 40) | `main.cpp` | `main.cpp` – záverečné `delete routes[i]` |
+| `Vehicle*[capacity]` | konštruktor `TransportSystem` | `~TransportSystem()` – `delete[] fleet` |
+| `Ticket t` | `main.cpp` – stack | automaticky na konci každej iterácie cyklu |
 
-Pravidlo: **každý `new` má príslušný `delete`**.
+Pravidlo, ktorého som sa držal: **každý `new` má príslušný `delete`**.
 
-Virtuálny destruktor vo Vehicle zabezpečí, že pri `delete fleet[i]` sa zavolá správny destruktor (`~Bus()` alebo `~Tram()`), nie len `~Vehicle()`.
+Virtuálny destruktor vo `Vehicle` zabezpečí, že pri `delete fleet[i]` sa zavolá správny destruktor (`~Bus()` alebo `~Tram()`), nie len `~Vehicle()`.
 
 ---
 
 ## Kompilácia a spustenie
 
 ```bash
-# Skompilovat projekt
 cd projekt
 make
-
-# Spustiť
 ./mhd
 ```
 
 Makefile kompiluje každý `.cpp` zvlášť (`-c`), potom linkuje všetky `.o` súbory do výsledného spustiteľného súboru `mhd`.
-
-Použitý štandard: **C++17** (`-std=c++17`)
