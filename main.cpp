@@ -1,6 +1,6 @@
 #include<iostream>
 #include<string>
-#include<iomanip>
+#include<iomanip>   // kniznica na zarovnanie v simulacii
 #include "src/TransportSystem.h"
 #include "src/Bus.h"
 #include "src/Tram.h"

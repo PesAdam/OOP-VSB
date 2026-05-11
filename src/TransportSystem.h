@@ -6,24 +6,24 @@
 
 // Centralny dispecing. Spravuje polymorfnu flotilu vozidiel (Vehicle**).
 class TransportSystem {
-private:
-    Vehicle** fleet;      
-    int fleetCount;
-    int fleetCapacity;
+    private:
+        Vehicle** fleet;      
+        int fleetCount;
+        int fleetCapacity;
 
-public:
-    TransportSystem(int capacity);
-    ~TransportSystem();
+    public:
+        TransportSystem(int capacity);
+        ~TransportSystem();
 
-    void addVehicle(Vehicle* v);
+        void addVehicle(Vehicle* v);
 
-    
-    void assignRoute(Vehicle* v, Route r);
-    void assignRoute(Vehicle* v, std::string start, std::string dest);
+        
+        void assignRoute(Vehicle* v, Route r);
+        void assignRoute(Vehicle* v, std::string start, std::string dest);
 
-    
-    void startSimulation() const;
+        
+        void startSimulation() const;
 
-    Vehicle* getVehicle(int index) const;
-    int getFleetSize() const;
+        Vehicle* getVehicle(int index) const;
+        int getFleetSize() const;
 };

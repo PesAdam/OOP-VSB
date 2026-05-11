@@ -7,7 +7,7 @@ Tram::Tram(int id, Driver d, Route r, int voltage) : Vehicle(id, d, r){
 }
 
 void Tram::drive() const {
-    std::cout << "[ELEKTRIČKA #" << this->vehicleID << "] "
+    cout << "[ELEKTRIČKA #" << this->vehicleID << "] "
               << this->route.getRouteInfo()
               << " | " << this->driver.getDetails()
               << " | Napatie: " << this->pantographVoltage << " V" << std::endl;
