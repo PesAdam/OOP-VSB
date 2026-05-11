@@ -8,10 +8,11 @@ Simulácia mestskej hromadnej dopravy (MHD) demonštrujúca kľúčové koncepty
 
 1. [Čo program robí – ľudskou rečou](#čo-program-robí--ľudskou-rečou)
 2. [Štruktúra projektu](#štruktúra-projektu)
-3. [Popis tried](#popis-tried)
-4. [OOP koncepty](#oop-koncepty)
-5. [Sprava pamäte](#správa-pamäte)
-6. [Kompilácia a spustenie](#kompilácia-a-spustenie)
+3. [UML diagram tried](#uml-diagram-tried)
+4. [Popis tried](#popis-tried)
+5. [OOP koncepty](#oop-koncepty)
+6. [Správa pamäte](#správa-pamäte)
+7. [Kompilácia a spustenie](#kompilácia-a-spustenie)
 
 ---
 
@@ -46,6 +47,70 @@ projekt/
     ├── TransportSystem.h / .cpp      # dispečing – správca flotily
     └── Ticket.h / Ticket.cpp         # cestovný lístok so statickým počítadlom
 ```
+
+---
+
+## UML diagram tried
+
+> Zdrojový súbor diagramu: [`uml.puml`](uml.puml) (PlantUML – dá sa vyrenderovať na https://www.plantuml.com/plantuml)
+
+```
+┌──────────────────────────────────────┐
+│           <<abstract>>               │
+│              Vehicle                 │
+├──────────────────────────────────────┤
+│ # vehicleID    : int                 │
+│ # driver       : Driver              │  ◆──────────────────► ┌─────────────┐
+│ # route        : Route               │  (kompozícia)         │   Driver    │
+├──────────────────────────────────────┤                       ├─────────────┤
+│ + drive() : void  {abstract}         │  ◆──────────────────► │   Route     │
+│ + setDriver(d)                       │  (kompozícia)         └─────────────┘
+│ + setRoute(r)                        │
+│ + getID() / getDriver() / getRoute() │
+└────────────────┬─────────────────────┘
+                 │ (dedičnosť)
+        ┌────────┴────────┐
+        ▼                 ▼
+┌──────────────┐   ┌──────────────────┐
+│     Bus      │   │      Tram        │
+├──────────────┤   ├──────────────────┤
+│ - fuelCap.   │   │ - pantographV.   │
+├──────────────┤   ├──────────────────┤
+│ + drive()    │   │ + drive()        │
+│ + refuel()   │   │ + getPantoV()    │
+│ + getFuelC() │   └──────────────────┘
+└──────────────┘
+
+┌────────────────────────────────────────────────┐
+│               TransportSystem                  │
+├────────────────────────────────────────────────┤
+│ - fleet[]      : Vehicle*   (polymorfné pole)  │
+│ - fleetCount   : int                           │◇────► Vehicle*
+│ - fleetCapacity: int                           │  (agregácia)
+├────────────────────────────────────────────────┤
+│ + addVehicle(v : Vehicle*)                     │
+│ + assignRoute(v, r : Route)      ──┐ pretažená │
+│ + assignRoute(v, start, dest)    ──┘ metóda    │
+│ + startSimulation()  [late binding]            │
+│ + getVehicle(index) / getFleetSize()           │
+└────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────┐
+│               Ticket                │
+├─────────────────────────────────────┤
+│ - {static} totalTicketsCount : int  │
+│ - price : double                    │
+├─────────────────────────────────────┤
+│ + Ticket(price)                     │
+│ + getPrice() : double               │
+│ + {static} getTicketsCount() : int  │  ← volá sa ako Ticket::getTicketsCount()
+└─────────────────────────────────────┘
+```
+
+**Legenda vzťahov:**
+- `▲` / dedičnosť (IS-A): `Bus` je `Vehicle`, `Tram` je `Vehicle`
+- `◆──►` kompozícia (HAS-A): `Vehicle` vlastní `Driver` a `Route` (objekty zanikajú spolu)
+- `◇──►` agregácia: `TransportSystem` spravuje `Vehicle*` (vozidlá môžu existovať samostatne)
 
 ---
 

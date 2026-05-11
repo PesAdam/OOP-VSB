@@ -1,29 +1,18 @@
 #pragma once
 #include "Vehicle.h"
 
-// ============================================================
-// Trieda: Tram (Elektricka) - POTOMOK Vehicle
-// ------------------------------------------------------------
-// Konkretna implementacia vozidla typu elektricka.
-// Dedicnostou ziskava vehicleID, driver, route a vsetky gettery z Vehicle.
-// Rozsiruje predka o:
-//   - pantographVoltage  (napatie pantografu v Voltoch)
-//
-// Implementuje cisto virtualnu metodu drive() z Vehicle.
-// Vdaka tomu mozeme Tram* ulozit do Vehicle* a polymorfne volat drive().
-// ============================================================
+// [BOD 6] Dedicna hierarchia – Tram je potomkom Vehicle
+// [BOD 7] Rozsirenie dat (pantographVoltage) oproti predkovi
 class Tram : public Vehicle {
 private:
-    int pantographVoltage;   // napatie elektrického pantografu (napr. 600V, 750V, 900V)
+    int pantographVoltage;   // [BOD 7] Atribut specificky pre Tram
 
 public:
-    // Konstruktor - okrem ID, vodica a trasy prijima aj napatie pantografu
     Tram(int id, Driver d, Route r, int voltage);
 
-    // Implementacia cisto virtualnej metody z Vehicle
-    // override = oznacenie, ze prekryvame virtualnu metodu predka
+    // [BOD 7] Zmena spravania s neskoravou vazbou
+    // [BOD 9] Polymorfne volanie cez Vehicle* v startSimulation()
     void drive() const override;
-
-    // Getter pre napatie pantografu
     int getPantographVoltage() const;
 };
+
