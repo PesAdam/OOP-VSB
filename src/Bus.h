@@ -1,15 +1,22 @@
 #pragma once
 #include "Vehicle.h"
 
+// [BOD 6][BOD 7] Bus je potomkom Vehicle – rozsiruje data aj metody
+// Rozsirovanie dat:    pridava fuelCapacity (kapacita nadrze)
+// Rozsirovanie metod: pridava refuel() – tato metoda v predkovi Vehicle neexistuje
 class Bus : public Vehicle {
     private:
-        double fuelCapacity;   
+        double fuelCapacity;  // kapacita palivovej nadrze v litroch – specificka pre Bus
 
     public:
         Bus(int id, Driver d, Route r, double fuelCapacity);
 
+        // [BOD 7] Override – Bus implementuje drive() inak ako Tram
+        // Vola sa polymorfne cez Vehicle* v simulacii
         void drive() const override;
-        
+
+        // [BOD 7] Metoda specificka len pre Bus – neda sa volat cez Vehicle*
+        // Dostupna az po dynamic_cast<Bus*>
         void refuel() const;
         double getFuelCapacity() const;
 };

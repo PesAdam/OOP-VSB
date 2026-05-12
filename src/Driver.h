@@ -1,7 +1,8 @@
 #pragma once
 #include<string>
 
-// Vodic priradeny k vozidlu. Pouziva sa ako kompozicia vo Vehicle.
+// [BOD 3] Driver sa pouziva ako kompozicia vo Vehicle (HAS-A vztah)
+// Vozidlo MA vodica – Driver nie je rodic ani potomok, je to clen
 class Driver {
     private:
         std::string name;

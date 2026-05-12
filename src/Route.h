@@ -1,7 +1,8 @@
 #pragma once
 #include<string>
 
-// Trasa vozidla (od stanice A do stanice B). Pouziva sa ako kompozicia vo Vehicle.
+// [BOD 3] Route sa pouziva ako kompozicia vo Vehicle (HAS-A vztah)
+// Vozidlo MA trasu – Route nie je rodic ani potomok, je to clen
 class Route {
     private:
         std::string startStation;
