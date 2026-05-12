@@ -26,7 +26,7 @@ int main() {
     for(int i = 0; i < 40; i++){
         drivers[i] = new Driver("Vodic_" + to_string(i + 1), 1000 + i + 1);
         routes[i]  = new Route(stations[i % 6], stations[(i + 2) % 6]);
-    }
+    }   
 
     // [BOD 6][BOD 9] Bus* je ulozeny ako Vehicle* – polymorfne priradenie
     // TransportSystem drzi Vehicle** fleet, takze prijima Bus* aj Tram*
