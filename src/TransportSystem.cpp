@@ -20,7 +20,7 @@ void TransportSystem::addVehicle(Vehicle* v){
         cerr << "[CHYBA] Flotila je plna, vozidlo nebolo pridane." << std::endl;
         return;
     }
-    this->fleet[this->fleetCount++] = v;
+    this->fleet[this->fleetCount++] = v; // tu sa uklada bus alebo tram do pola
 }
 
 void TransportSystem::assignRoute(Vehicle* v, Route r){

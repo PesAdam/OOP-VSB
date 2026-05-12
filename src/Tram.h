@@ -1,7 +1,7 @@
 #pragma once
 #include "Vehicle.h"
 
-// [BOD 6][BOD 7] Tram je potomkom Vehicle – rozsiruje data aj metody
+// [7] Tram je potomkom Vehicle – rozsiruje data aj metody
 // Rozsirovanie dat:    pridava pantographVoltage (napatie pantografu)
 // Zmena spravania:    implementuje drive() po svojom (neskorava vazba)
 class Tram : public Vehicle {
@@ -11,7 +11,7 @@ class Tram : public Vehicle {
     public:
         Tram(int id, Driver d, Route r, int voltage);
 
-        // [BOD 7] Override – Tram implementuje drive() inak ako Bus
+        // [7] Override – Tram implementuje drive() inak ako Bus
         // Vola sa polymorfne cez Vehicle* v simulacii
         void drive() const override;
         int getPantographVoltage() const;

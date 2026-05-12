@@ -4,7 +4,7 @@
 #include "Vehicle.h"
 #include "Route.h"
 
-// [BOD 9] Centralny dispecing – spravuje polymorfnu datovu strukturu Vehicle**
+// [9] Centralny dispecing – spravuje polymorfnu datovu strukturu Vehicle**
 // Do jedneho pola mozno ulozit Bus* aj Tram* cez spolocny typ Vehicle*
 class TransportSystem {
     private:
@@ -18,12 +18,12 @@ class TransportSystem {
 
         void addVehicle(Vehicle* v); // prida vozidlo do flotily, kontroluje kapacitu
 
-        // [BOD 4] Pretazene metody – rovnake meno, rozne parametre
+        // [4] Pretazene metody – rovnake meno, rozne parametre
         // Prekladac sam rozlisi ktoru verziu zavolat
-        void assignRoute(Vehicle* v, Route r);                          // verzia 1: hotovy objekt Route
-        void assignRoute(Vehicle* v, std::string start, std::string dest); // verzia 2: dva retazce
+        void assignRoute(Vehicle* v, Route r);                              // verzia 1: hotovy objekt Route
+        void assignRoute(Vehicle* v, std::string start, std::string dest);  // verzia 2: dva retazce
 
-        // [BOD 7][BOD 9] Iteruje flotilu a polymorfne vola drive() na kazdom vozidle
+        // [7][9] Iteruje flotilu a polymorfne vola drive() na kazdom vozidle
         void startSimulation() const;
 
         Vehicle* getVehicle(int index) const; // vrati pointer na vozidlo podla indexu

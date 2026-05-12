@@ -1,7 +1,7 @@
 #pragma once
 #include<string>
 
-// [BOD 3] Route sa pouziva ako kompozicia vo Vehicle (HAS-A vztah)
+// [3] Route sa pouziva ako kompozicia vo Vehicle (HAS-A vztah)
 // Vozidlo MA trasu – Route nie je rodic ani potomok, je to clen
 class Route {
     private:

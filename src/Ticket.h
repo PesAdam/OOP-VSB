@@ -1,6 +1,6 @@
 #pragma once
 
-// [BOD 5] Trieda v roli objektu – static clen totalTicketsCount je zdielany
+// [5] Trieda v roli objektu – static clen totalTicketsCount je zdielany
 // medzi VSETKYMI instanciami, neexistuje zvlast pre kazdy objekt
 // getTicketsCount() voláme na triede bez instancie: Ticket::getTicketsCount()
 class Ticket {
@@ -11,5 +11,5 @@ class Ticket {
     public:
         Ticket(double price); // konstruktor zvysi totalTicketsCount o 1
         double getPrice() const;
-        static int getTicketsCount(); // staticka metoda – vola sa: Ticket::getTicketsCount()
+        static int getTicketsCount(); // staticka metoda vracia nam pocet ticketov
 };
