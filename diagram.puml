@@ -1,0 +1,82 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+skinparam backgroundColor #1e1e1e
+skinparam class {
+    BackgroundColor #2d2d2d
+    BorderColor #888888
+    ArrowColor #aaaaaa
+    FontColor #ffffff
+    HeaderBackgroundColor #3a3a3a
+}
+
+interface IDriveable <<interface>> {
+    +drive() : void
+}
+
+abstract class Vehicle <<abstract>> {
+    #int vehicleID
+    #Driver driver
+    #Route route
+    --
+    +Vehicle(id, d, r)
+    +~Vehicle()
+    +drive() : void
+    +setRoute(r : Route) : void
+    +setRoute(start : string, end : string) : void
+    +getID() : int
+    +getDriver() : Driver
+    +getRoute() : Route
+}
+
+class Bus {
+    -double fuelCapacity
+    --
+    +Bus(id, d, r, fuelCapacity)
+    +drive() : void
+    +refuel() : void
+    +getFuelCapacity() : double
+}
+
+class Tram {
+    -int pantographVoltage
+    --
+    +Tram(id, d, r, voltage)
+    +drive() : void
+    +getPantographVoltage() : int
+}
+
+class Driver {
+    -string name
+    -int employeeID
+    --
+    +Driver()
+    +Driver(name, employeeID)
+    +getDetails() : string
+}
+
+class Route {
+    -string startStation
+    -string endStation
+    --
+    +Route()
+    +Route(start, end)
+    +getRouteInfo() : string
+}
+
+class Ticket {
+    -{static} int totalTicketsCount
+    -double price
+    --
+    +Ticket(price)
+    +getPrice() : double
+    +{static} getTicketsCount() : int
+}
+
+IDriveable <|-- Vehicle : dedi
+Vehicle    <|-- Bus     : dedi
+Vehicle    <|-- Tram    : dedi
+Vehicle    *-- Driver   : kompozicia
+Vehicle    *-- Route    : kompozicia
+
+@enduml

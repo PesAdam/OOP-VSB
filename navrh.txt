@@ -1,0 +1,33 @@
+Majme systém mestskej hromadnej dopravy s obmedzeným počtom vozidiel vo flotile.
+Do flotily možno pridávať autobusy aj električky. Všetky vozidlá sú riadené
+spoločným rozhraním IDriveable, ktoré zaručuje, že každé vozidlo musí vedieť jazdiť.
+
+• Každé vozidlo má unikátne ID, vodiča a trasu. Vodiča charakterizuje meno
+  a zamestnanecké číslo, trasu tvorí východisková a cieľová zastávka.
+  Vodič aj trasa sú súčasťou vozidla – vozidlo ich vlastní (kompozícia).
+  Každé vozidlo vie jazdiť – autobus a električka jazdia každý po svojom.
+  Konkrétny spôsob jazdy sa určí až za behu programu podľa skutočného typu
+  vozidla (neskorá väzba).
+
+• Autobus má navyše kapacitu palivovej nádrže a možno ho dotankovať (refuel).
+  Električka má napätie pantografu. Tieto vlastnosti rozširujú základné vozidlo
+  o nové dáta aj metódy a nie sú dostupné cez spoločný typ Vozidlo – iba priamo
+  cez typ Autobus, resp. Električka.
+
+• Vozidlu možno priradiť novú trasu, a to buď hotovým objektom Trasa,
+  alebo priamym zadaním názvov dvoch zastávok. Obe varianty majú rovnaké meno
+  metódy – ide o preťaženie metód (method overloading).
+
+• Systém eviduje predaj cestovných lístkov. Každý lístok má svoju cenu.
+  Celkový počet predaných lístkov je spoločný pre všetky lístky – je uložený
+  v statickom člene triedy a automaticky sa zvyšuje pri každom predanom lístku.
+  Možno ho zistiť bez vytvorenia konkrétneho lístka volaním Ticket::getTicketsCount().
+
+• Možno zistiť, ale nemeniť:
+  • ID vozidla a typ vozidla (autobus / električka)
+  • meno a zamestnanecké číslo vodiča
+  • trasu vozidla (východisková a cieľová zastávka)
+  • kapacitu nádrže autobusu, resp. napätie pantografu električky
+  • cenu konkrétneho lístka
+  • celkový počet predaných lístkov
+
