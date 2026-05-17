@@ -1,25 +1,16 @@
 #include "Driver.h"
-#include <string>
 using namespace std;
 
-Driver::Driver(){
-    this->name = "Neznamy";
+Driver::Driver() {
+    this->name       = "Neznamy";
     this->employeeID = 0;
 }
 
-Driver::Driver(string name, int employeeID){
-    this->name = name;
+Driver::Driver(string name, int employeeID) {
+    this->name       = name;
     this->employeeID = employeeID;
 }
 
 string Driver::getDetails() const {
-    return "Vodic: " + this->name + " (ID: " + to_string(this->employeeID) + ")";
-}
-
-string Driver::getName() const { 
-    return this->name; 
-}
-
-int Driver::getID() const { 
-    return this->employeeID; 
+    return "Vodic: " + name + " (ID: " + to_string(employeeID) + ")";
 }

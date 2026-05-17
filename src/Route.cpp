@@ -1,26 +1,17 @@
 #include "Route.h"
-#include <string>
 using namespace std;
 
-Route::Route(){
+Route::Route() {
     this->startStation = "Neznama";
-    this->endStation = "Neznama";
+    this->endStation   = "Neznama";
 }
 
-Route::Route(string start, string end){
+Route::Route(string start, string end) {
     this->startStation = start;
-    this->endStation = end;
+    this->endStation   = end;
 }
 
 string Route::getRouteInfo() const {
-    return this->startStation + " -> " + this->endStation;
-}
-
-string Route::getStart() const {
-    return this->startStation;
-}
-
-string Route::getEnd() const {
-    return this->endStation;
+    return startStation + " -> " + endStation;
 }
 

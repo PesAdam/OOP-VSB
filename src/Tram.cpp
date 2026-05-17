@@ -2,17 +2,15 @@
 #include <iostream>
 using namespace std;
 
-Tram::Tram(int id, Driver d, Route r, int voltage) : Vehicle(id, d, r){
+Tram::Tram(int id, Driver d, Route r, int voltage)
+    : Vehicle(id, d, r)
+{
     this->pantographVoltage = voltage;
 }
 
 void Tram::drive() const {
-    cout << "[ELEKTRIČKA #" << this->vehicleID << "] "
-              << this->route.getRouteInfo()
-              << " | " << this->driver.getDetails()
-              << " | Napatie: " << this->pantographVoltage << " V" << std::endl;
+    cout << "[ELEKTRIČKA #" << vehicleID << "] " << route.getRouteInfo()
+         << " | " << driver.getDetails() << " | Napatie: " << pantographVoltage << " V\n";
 }
 
-int Tram::getPantographVoltage() const {
-    return this->pantographVoltage;
-}
+int Tram::getPantographVoltage() const { return pantographVoltage; }

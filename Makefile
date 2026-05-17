@@ -9,8 +9,7 @@ SRCS = main.cpp \
        src/Ticket.cpp \
        src/Vehicle.cpp \
        src/Bus.cpp \
-       src/Tram.cpp \
-       src/TransportSystem.cpp
+       src/Tram.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

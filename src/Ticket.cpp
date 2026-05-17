@@ -2,15 +2,15 @@
 
 int Ticket::totalTicketsCount = 0;
 
-Ticket::Ticket(double price){
+Ticket::Ticket(double price) {
     this->price = price;
-    Ticket::totalTicketsCount++;
+    totalTicketsCount++;
 }
 
 double Ticket::getPrice() const {
-    return this->price;
+    return price;
 }
 
 int Ticket::getTicketsCount() {
-    return Ticket::totalTicketsCount;
+    return totalTicketsCount;
 }
