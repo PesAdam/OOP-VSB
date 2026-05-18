@@ -1,0 +1,46 @@
+Program simuluje systém mestskej hromadnej dopravy s obmedzenou flotilou vozidiel.
+Flotila má pevne stanovenú maximálnu kapacitu a možno do nej pridávať autobusy
+aj električky.
+
+Oba typy vozidiel vychádzajú zo spoločnej základnej triedy Vehicle. Tá je
+abstraktná – nedá sa priamo vytvoriť, slúži len ako základ pre konkrétne typy.
+Okrem toho Vehicle implementuje rozhranie IDriveable, ktoré zaručuje, že každé
+vozidlo musí vedieť jazdiť – ktokoľvek, kto bude s vozidlom pracovať cez tento
+spoločný typ, si môže byť istý, že metóda drive() vždy existuje.
+
+Každý autobus a každá električka jazdia trochu inak – pri volaní drive() sa
+správny spôsob jazdy zistí až za behu podľa toho, čo vozidlo v skutočnosti je.
+Vďaka tomu možno mať v jednom poli zmiešané autobusy aj električky ako Vehicle*
+a jednoducho zavolať drive() na každý z nich – každý sa zachová po svojom
+(neskorá väzba / polymorfizmus).
+
+Každé vozidlo si nesie vodiča a trasu – sú priamo jeho súčasťou, nie nejakým
+vonkajším odkazom. Keď vozidlo zanikne, zanikne s ním aj jeho vodič a trasa
+(kompozícia). Vodič má meno a zamestnanecké číslo, trasa má štartovaciu
+a cieľovú zastávku.
+
+Autobus rozširuje základné vozidlo o objem nádrže a metódu na dotankovanie.
+Električka zas o napätie pantografu. Tieto detaily nie sú viditeľné cez spoločný
+typ Vehicle – sú dostupné len vtedy, keď pracujeme priamo s typom Bus, resp. Tram.
+Ide o zámerné rozšírenie triedy o nové dáta aj správanie bez toho, aby sme
+menili základ.
+
+Trasu vozidlu možno nastaviť dvoma spôsobmi – buď odovzdáme hotový objekt Route,
+alebo jednoducho napíšeme dve zastávky priamo ako reťazce. Obe varianty sa volajú
+rovnako (setRoute), líšia sa len parametrami. (preťažené metódy).
+
+Systém eviduje predaj cestovných lístkov. Každý lístok má svoju vlastnú cenu,
+ktorá sa nastaví pri vytvorení a potom sa nemení. Okrem toho si trieda Ticket sama
+počíta, koľko lístkov bolo predaných celkovo – toto číslo nie je uložené
+v žiadnom konkrétnom lístku, ale je spoločné pre všetky (statický člen triedy).
+Rastie automaticky pri každom novom lístku a možno ho kedykoľvek zistiť cez
+Ticket::getTicketsCount() bez toho, aby sme mali nejaký konkrétny lístok po ruke.
+
+Niektoré veci sú zámerene len na čítanie (bez setterov):
+  • ID vozidla a jeho typ (autobus / električka)
+  • meno a zamestnanecké číslo vodiča
+  • trasa vozidla
+  • objem nádrže autobusu, resp. napätie pantografu električky
+  • cena lístka
+  • celkový počet predaných lístkov
+
